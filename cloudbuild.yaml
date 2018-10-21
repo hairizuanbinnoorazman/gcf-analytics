@@ -6,6 +6,7 @@ steps:
         "functions",
         "deploy",
         "gcf-functions",
+        "--entry-point=main",
         "--region=asia-northeast1",
         "--runtime=python37",
         "--source=https://source.developers.google.com/projects/expanded-league-162223/repos/gcf-analytics/moveable-aliases/master/paths//",
