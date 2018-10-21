@@ -10,4 +10,5 @@ steps:
         "--runtime=python37",
         "--source=https://source.developers.google.com/projects/expanded-league-162223/repos/gcf-analytics/moveable-aliases/master/paths//",
         "--trigger-event=google.storage.object.finalize",
+        "--trigger-resource=gcf-test-analytics",
       ]
