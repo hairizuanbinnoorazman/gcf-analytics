@@ -29,3 +29,13 @@ gsutil cp ./test.json gs://gcf-test-analytics
 # Remove file from google cloud storage
 gsutil rm gs://gcf-test-analytics/test.json
 ```
+
+Sending over the correct/incorrect datasets
+
+```bash
+# Send over correctly formatted csv data
+gsutil cp ./test_correct_data.csv gs://gcf-test-analytics
+
+# Send over incorrectly formatted csv data
+gsutil cp ./test_incorrect_data.csv gs://gcf-test-analytics
+```
