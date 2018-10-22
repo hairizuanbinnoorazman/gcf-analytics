@@ -12,6 +12,12 @@ The following project has been set up with continuous deployment in mind. This w
 gsutil cp ./config.json gs://gcf-test-analytics/config/config.json
 ```
 
+- Convert `pipfile` dependencies to `requirements.txt` file
+
+```bash
+pipenv lock --requirements > requirements.txt
+```
+
 # Quick test
 
 One of the initial functions that is needed to be used for this is the capability to ping Google Cloud Storage and that being able to trigger analytics functions.
