@@ -23,6 +23,7 @@ pipenv lock --requirements > requirements.txt
 
 ```bash
 git push -f google alt_branch:master
+git push -f google {commit-id}:master
 ```
 
 # Quick test
