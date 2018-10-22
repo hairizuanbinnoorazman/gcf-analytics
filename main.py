@@ -15,11 +15,11 @@ def main(data, context):
          event metadata.
     """
     bucket_id = data['bucket']
-    file_name = data['name']
+    path = data['name']
     logging.warning(data)
 
     assert isinstance(bucket_id, str), "Bucket id provided is not a string"
-    assert isinstance(file_name, str), "Filename provided is not a string"
+    assert isinstance(path, str), "Filename provided is not a string"
 
     # Retrieve configuration files
     client = storage.Client()
@@ -37,7 +37,16 @@ def main(data, context):
         slack_token, channel_id, "Received csv file. Will begin checking")
 
     # Download file and process it
-    data_blob = bucket.blob(file_name)
+    data_blob = bucket.blob(path)
+    if "/" in path:
+        folder_name, file_name = path.split("/", 1)
+        # If csv extension not in file_name, its wrong and needs to be returned
+        if ".csv" not in file_name:
+            logging.error("Excepted csv file but .csv extension not found")
+            return
+    else:
+        file_name = path
+
     try:
         data_blob.download_to_filename("/tmp/{}".format(file_name))
         data = pd.read_csv("/tmp/{}".format(file_name))
@@ -47,7 +56,7 @@ def main(data, context):
 
     err_list = analytics_check.run_check(data)
     if len(err_list) > 0:
-        error_test = ""
+        error_text = ""
         for item in err_list:
             error_text = "{}\n{}".format(error_text, item)
         slack.send_text_to_channel(
