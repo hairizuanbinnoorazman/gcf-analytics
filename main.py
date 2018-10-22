@@ -45,7 +45,10 @@ def main(data, context):
 
     err_list = analytics_check.run_check(data)
     if len(err_list) > 0:
+        error_test = ""
+        for item in err_list:
+            error_text = "{}\n{}".format(error_text, item)
         slack.send_text_to_channel(
-            slack_token, channel_id, "Incorrect input")
+            slack_token, channel_id, error_text)
     else:
         slack.send_text_to_channel(slack_token, channel_id, "All good")
