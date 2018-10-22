@@ -16,6 +16,7 @@ def main(data, context):
     """
     bucket_id = data['bucket']
     file_name = data['name']
+    logging.warning(data)
 
     assert isinstance(bucket_id, str), "Bucket id provided is not a string"
     assert isinstance(file_name, str), "Filename provided is not a string"
