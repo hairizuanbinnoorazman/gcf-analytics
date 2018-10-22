@@ -18,6 +18,13 @@ gsutil cp ./config.json gs://gcf-test-analytics/config/config.json
 pipenv lock --requirements > requirements.txt
 ```
 
+- Currently, only the master is being used to deploy a new version of the application to production.
+  Do deploy the latest change meant to be put to production:
+
+```bash
+git push -f google alt_branch:master
+```
+
 # Quick test
 
 One of the initial functions that is needed to be used for this is the capability to ping Google Cloud Storage and that being able to trigger analytics functions.
