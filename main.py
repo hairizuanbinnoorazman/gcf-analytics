@@ -37,12 +37,13 @@ def main(data, context):
         slack_token, channel_id, "Received csv file. Will begin checking")
 
     # Download file and process it
-    data_blob = bucket.get_blob(file_name)
+    data_blob = bucket.blob(file_name)
     try:
         data_blob.download_to_filename("/tmp/{}".format(file_name))
         data = pd.read_csv("/tmp/{}".format(file_name))
     except Exception as e:
         logging.error(e)
+        return
 
     err_list = analytics_check.run_check(data)
     if len(err_list) > 0:
