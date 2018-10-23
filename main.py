@@ -86,7 +86,7 @@ def main(data, context):
     query.add_filter("submission_date", "=",
                      datetime.datetime.now().strftime("%Y-%m-%d"))
     report_items = list(query.fetch())
-    report_items = [x['report_items'] for x in report_items]
+    report_items = [x['report_type'] for x in report_items]
     expected_items = ['test1', 'test2', 'test3']
     for expected_item in expected_items:
         if expected_item not in report_items:
