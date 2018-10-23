@@ -1,7 +1,5 @@
-from pymysql.err import OperationalError
 from google.cloud import storage
 import pandas as pd
-import pymysql
 import logging
 import json
 
