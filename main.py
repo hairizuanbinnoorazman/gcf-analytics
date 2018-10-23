@@ -72,12 +72,20 @@ def main(data, context):
     else:
         slack.send_text_to_channel(slack_token, channel_id, "All good")
 
-    key = datastore_client.key('EntityKind', 1234)
+    # Store passed file into datastore
+    key = datastore_client.key('ReportSubmission', uuid.uuid4())
     entity = datastore.Entity(key=key)
     entity.update({
-        "submission_date": datetime.datetime.now(),
+        "submission_date": datetime.datetime.now().strftime("%Y-%m-%d"),
         "report_type": folder_name
     })
     datastore_client.put(entity)
-    result = datastore_client.get(key)
-    logging.warning(result)
+
+    # Query for results
+    query = datastore_client.query(kind='ReportSubmission')
+    query.add_filter("submission_date", "=",
+                     datetime.datetime.now().strftime("%Y-%m-%d"))
+    report_items = list(query.fetch())
+    report_items = [x['report_items'] for x in report_items]
+    if list.sort(report_items) == ['test1', 'test2', 'test3']:
+        logging.warning("Send google pubsub message")
