@@ -20,7 +20,7 @@ steps:
         "functions",
         "deploy",
         "gcf-pubsub-functions",
-        "--entry-point=pubsub",
+        "--entry-point=pubsubber",
         "--region=asia-northeast1",
         "--runtime=python37",
         "--source=https://source.developers.google.com/projects/expanded-league-162223/repos/gcf-functions/moveable-aliases/master/paths//",

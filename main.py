@@ -1,10 +1,13 @@
 from google.cloud import storage
 from google.cloud import datastore
+from google.cloud import pubsub
 import pandas as pd
 import datetime
 import logging
+import base64
 import json
 import uuid
+
 
 import slack
 import analytics_check
@@ -24,6 +27,9 @@ channel_id = slack.get_channel_list(slack_token, slack_channel_name)
 
 # Define datastore
 datastore_client = datastore.Client()
+
+# Define pubsub
+pubsub_client = pubsub.PublisherClient()
 
 
 def main(data, context):
@@ -94,7 +100,23 @@ def main(data, context):
             return
     logging.warning("Can send pubsub report now")
 
+    pub_message = '{"status":"completed"}'.encode("ascii")
+    pubsub_client.publish("gcf-test-analytics", base64.b64encode(pub_message))
 
-def pubsub(data, context):
-    logging.warning(data)
-    logging.warning(context)
+
+def pubsubber(data, context):
+    pubsub_data = data['data']
+    pubsub_data = base64.b64decode(pubsub_data).decode('ascii')
+    logging.warning(pubsub_data)
+
+    path1 = "/test1/test_correct_data.csv"
+    path2 = "/test2/test_correct_data.csv"
+    path3 = "/test3/test_correct_data.csv"
+
+    data_blob = bucket.blob(path1)
+    data_blob.download_to_filename("/tmp/{}".format("test_correct_data.csv"))
+    data = pd.read_csv("/tmp/test_correct_data.csv")
+
+    total_rows = len(data) * 3
+    slack.send_text_to_channel(
+        slack_token, channel_id, "Number of rows in all datasets is {}".format(total_rows))
