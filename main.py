@@ -87,5 +87,9 @@ def main(data, context):
                      datetime.datetime.now().strftime("%Y-%m-%d"))
     report_items = list(query.fetch())
     report_items = [x['report_items'] for x in report_items]
-    if list.sort(report_items) == ['test1', 'test2', 'test3']:
-        logging.warning("Send google pubsub message")
+    expected_items = ['test1', 'test2', 'test3']
+    for expected_item in expected_items:
+        if expected_item not in report_items:
+            logging.warning("Not all reports submitted")
+            return
+    logging.warning("Can send pubsub report now")
