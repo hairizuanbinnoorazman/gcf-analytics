@@ -72,7 +72,7 @@ def main(data, context):
     else:
         slack.send_text_to_channel(slack_token, channel_id, "All good")
 
-    key = datastore_client.key('ReportSubmission', uuid.uuid4())
+    key = datastore_client.key('EntityKind', 1234)
     entity = datastore.Entity(key=key)
     entity.update({
         "submission_date": datetime.datetime.now(),
