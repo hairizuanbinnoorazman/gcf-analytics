@@ -73,7 +73,7 @@ def main(data, context):
         slack.send_text_to_channel(slack_token, channel_id, "All good")
 
     # Store passed file into datastore
-    key = datastore_client.key('ReportSubmission', uuid.uuid4())
+    key = datastore_client.key('ReportSubmission', str(uuid.uuid4()))
     entity = datastore.Entity(key=key)
     entity.update({
         "submission_date": datetime.datetime.now().strftime("%Y-%m-%d"),
