@@ -6,7 +6,8 @@ name = "pypi"
 [packages]
 pandas = "*"
 google-cloud-storage = "*"
-pymysql = "*"
+google-cloud-datastore = "*"
+uuid = "*"
 
 [dev-packages]
 pylint = "*"
