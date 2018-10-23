@@ -101,7 +101,8 @@ def main(data, context):
     logging.warning("Can send pubsub report now")
 
     pub_message = '{"status":"completed"}'.encode("ascii")
-    pubsub_client.publish("gcf-test-analytics", base64.b64encode(pub_message))
+    pubsub_client.publish(
+        "projects/expanded-league-162223/topics/gcf-test-analytics", base64.b64encode(pub_message))
 
 
 def pubsubber(data, context):
