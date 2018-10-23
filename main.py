@@ -1,10 +1,13 @@
+from pymysql.err import OperationalError
 from google.cloud import storage
 import pandas as pd
+import pymysql
 import logging
 import json
 
 import slack
 import analytics_check
+
 
 # Retrieve configuration files
 client = storage.Client()
@@ -17,6 +20,32 @@ keys_json = json.loads(keys)
 slack_token = keys_json['slack_token']
 slack_channel_name = keys_json['slack_channel_name']
 channel_id = slack.get_channel_list(slack_token, slack_channel_name)
+
+mysql_config = {
+    'user': keys_json['sql_user'],
+    'password': keys_json['sql_password'],
+    'db': keys_json['sql_database'],
+    'charset': 'utf8mb4',
+    'cursorclass': pymysql.cursors.DictCursor,
+    'autocommit': True
+}
+
+# Create SQL connection globally to enable reuse
+# PyMySQL does not include support for connection pooling
+mysql_conn = None
+
+
+def __get_cursor():
+    """
+    Helper function to get a cursor
+      PyMySQL does NOT automatically reconnect,
+      so we must reconnect explicitly using ping()
+    """
+    try:
+        return mysql_conn.cursor()
+    except OperationalError:
+        mysql_conn.ping(reconnect=True)
+        return mysql_conn.cursor()
 
 
 def main(data, context):
@@ -63,3 +92,19 @@ def main(data, context):
             slack_token, channel_id, error_text)
     else:
         slack.send_text_to_channel(slack_token, channel_id, "All good")
+
+    # Lazily load up sql database connection
+    global mysql_conn
+    if not mysql_conn:
+        try:
+            mysql_conn = pymysql.connect(**mysql_config)
+        except OperationalError:
+            # If production settings fail, use local development ones
+            mysql_config['unix_socket'] = '/cloudsql/{}'.format(
+                keys_json['sql_instance_name'])
+            mysql_conn = pymysql.connect(**mysql_config)
+
+    with __get_cursor() as cursor:
+        cursor.execute('SELECT NOW() as now')
+        results = cursor.fetchone()
+        logging.warning(str(results['now']))
