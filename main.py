@@ -93,3 +93,8 @@ def main(data, context):
             logging.warning("Not all reports submitted")
             return
     logging.warning("Can send pubsub report now")
+
+
+def pubsub(data, context):
+    logging.warning(data)
+    logging.warning(context)
