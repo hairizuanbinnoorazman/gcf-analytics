@@ -1,7 +1,10 @@
 from google.cloud import storage
+from google.cloud import datastore
 import pandas as pd
+import datetime
 import logging
 import json
+import uuid
 
 import slack
 import analytics_check
@@ -18,6 +21,9 @@ keys_json = json.loads(keys)
 slack_token = keys_json['slack_token']
 slack_channel_name = keys_json['slack_channel_name']
 channel_id = slack.get_channel_list(slack_token, slack_channel_name)
+
+# Define datastore
+datastore_client = datastore.Client()
 
 
 def main(data, context):
@@ -62,5 +68,14 @@ def main(data, context):
             error_text = "{}\n{}".format(error_text, item)
         slack.send_text_to_channel(
             slack_token, channel_id, error_text)
+        return
     else:
         slack.send_text_to_channel(slack_token, channel_id, "All good")
+
+    key = datastore_client.key('ReportSubmission', uuid.uuid4())
+    entity = datastore.Entity(key=key)
+    entity.update({
+        "submission_date": datetime.datetime.now(),
+        "report_type": folder_name
+    })
+    datastore_client.put(entity)
