@@ -6,6 +6,18 @@ import json
 import slack
 import analytics_check
 
+# Retrieve configuration files
+client = storage.Client()
+bucket = client.get_bucket('gcf-test-analytics')
+blob = bucket.get_blob('config/config.json')
+keys = blob.download_as_string()
+keys_json = json.loads(keys)
+
+# Retrieve slack channel id
+slack_token = keys_json['slack_token']
+slack_channel_name = keys_json['slack_channel_name']
+channel_id = slack.get_channel_list(slack_token, slack_channel_name)
+
 
 def main(data, context):
     """Background Cloud Function to be triggered by Cloud Storage.
@@ -20,18 +32,6 @@ def main(data, context):
 
     assert isinstance(bucket_id, str), "Bucket id provided is not a string"
     assert isinstance(path, str), "Filename provided is not a string"
-
-    # Retrieve configuration files
-    client = storage.Client()
-    bucket = client.get_bucket('gcf-test-analytics')
-    blob = bucket.get_blob('config/config.json')
-    keys = blob.download_as_string()
-    keys_json = json.loads(keys)
-
-    # Retrieve slack channel id
-    slack_token = keys_json['slack_token']
-    slack_channel_name = keys_json['slack_channel_name']
-    channel_id = slack.get_channel_list(slack_token, slack_channel_name)
 
     slack.send_text_to_channel(
         slack_token, channel_id, "Received csv file. Will begin checking")
