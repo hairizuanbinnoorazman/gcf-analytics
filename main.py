@@ -79,3 +79,5 @@ def main(data, context):
         "report_type": folder_name
     })
     datastore_client.put(entity)
+    result = datastore_client.get(key)
+    logging.warning(result)
