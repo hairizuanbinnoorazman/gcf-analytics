@@ -19,7 +19,7 @@ steps:
         "beta",
         "functions",
         "deploy",
-        "gcf-functions",
+        "gcf-pubsub-functions",
         "--entry-point=pubsub",
         "--region=asia-northeast1",
         "--runtime=python37",
