@@ -106,12 +106,12 @@ def main(data, context):
 
 def pubsubber(data, context):
     pubsub_data = data['data']
-    pubsub_data = base64.b64decode(pubsub_data).decode('ascii')
+    pubsub_data = base64.b64decode(pubsub_data)
     logging.warning(pubsub_data)
 
-    path1 = "/test1/test_correct_data.csv"
-    path2 = "/test2/test_correct_data.csv"
-    path3 = "/test3/test_correct_data.csv"
+    path1 = "test1/test_correct_data.csv"
+    path2 = "test2/test_correct_data.csv"
+    path3 = "test3/test_correct_data.csv"
 
     data_blob = bucket.blob(path1)
     data_blob.download_to_filename("/tmp/{}".format("test_correct_data.csv"))
