@@ -1,4 +1,8 @@
 {
     "slack_token": "",
-    "slack_channel_name": ""
+    "slack_channel_name": "",
+    "sql_instance_name": "",
+    "sql_user": "",
+    "sql_password": "",
+    "sql_database": ""
 }
