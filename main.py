@@ -22,7 +22,7 @@ def main(data, context):
 
     # Retrieve configuration files
     client = storage.Client()
-    bucket = client.get_bucket('gcf-test-analytics')
+    bucket = client.get_bucket('gcf-test-analytics-demo1')
     blob = bucket.get_blob('config/config.json')
     keys = blob.download_as_string()
     keys_json = json.loads(keys)
