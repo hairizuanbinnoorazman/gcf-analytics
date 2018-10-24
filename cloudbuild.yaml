@@ -5,11 +5,11 @@ steps:
         "beta",
         "functions",
         "deploy",
-        "gcf-functions",
+        "gcf-functions-demo1",
         "--entry-point=main",
         "--region=asia-northeast1",
         "--runtime=python37",
         "--source=https://source.developers.google.com/projects/expanded-league-162223/repos/gcf-functions/moveable-aliases/master/paths//",
         "--trigger-event=google.storage.object.finalize",
-        "--trigger-resource=gcf-test-analytics",
+        "--trigger-resource=gcf-test-analytics-demo1",
       ]
