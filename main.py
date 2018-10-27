@@ -58,7 +58,11 @@ def main(data, context):
             logging.error("Excepted csv file but .csv extension not found")
             return
     else:
+        folder_name = ""
         file_name = path
+
+    logging.info("Folder Name: {}, File name: {}".format(
+        folder_name, file_name))
 
     try:
         data_blob.download_to_filename("/tmp/{}".format(file_name))
