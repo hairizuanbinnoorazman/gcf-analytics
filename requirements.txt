@@ -1,27 +1,27 @@
--i https://pypi.org/simple
-cachetools==2.1.0
-certifi==2018.10.15
+-i https://pypi.org/simple/
+cachetools==3.1.1
+certifi==2019.9.11
 chardet==3.0.4
-google-api-core[grpc]==1.5.0
-google-auth==1.5.1
+google-api-core[grpc]==1.14.3
+google-auth==1.6.3
 google-cloud-core==0.28.1
 google-cloud-datastore==1.7.0
 google-cloud-pubsub==0.38.0
 google-cloud-storage==1.13.0
-google-resumable-media==0.3.1
-googleapis-common-protos[grpc]==1.5.3
+google-resumable-media==0.4.1
+googleapis-common-protos[grpc]==1.6.0
 grpc-google-iam-v1==0.11.4
-grpcio==1.15.0 ; extra == 'grpc'
-idna==2.7
-numpy==1.15.3
+grpcio==1.24.1
+idna==2.8
+numpy==1.17.3
 pandas==0.23.4
-protobuf==3.6.1
-pyasn1-modules==0.2.2
-pyasn1==0.4.4
-python-dateutil==2.7.3
-pytz==2018.5
-requests==2.20.0
+protobuf==3.10.0
+pyasn1-modules==0.2.7
+pyasn1==0.4.7
+python-dateutil==2.8.0
+pytz==2019.3
+requests==2.22.0
 rsa==4.0
-six==1.11.0
-urllib3==1.24
+six==1.12.0
+urllib3==1.24.2
 uuid==1.30
